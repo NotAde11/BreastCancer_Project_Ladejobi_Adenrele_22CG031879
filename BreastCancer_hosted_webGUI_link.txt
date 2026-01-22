@@ -1,0 +1,11 @@
+Name: Ladejobi Adenrele
+
+Matric Number: 22CG031879
+
+Machine Learning Algorithm Used: Artificial Neural Network (ANN)
+
+Model persistence method used: Keras (.h5) and Joblib
+
+Live URL of the hosted application
+
+GitHub repository link: https://github.com/NotAde11/BreastCancer_Project_Ladejobi_Adenrele_22CG031879
