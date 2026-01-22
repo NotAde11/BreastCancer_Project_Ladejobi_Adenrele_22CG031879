@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Advanced medical diagnostic platform for tumor classification using machine learning">
+    <title>MedScan Pro | Intelligent Tumor Analysis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --accent-teal: #14b8a6;
+            --accent-teal-dark: #0d9488;
+            --accent-cyan: #06b6d4;
+            --accent-violet: #8b5cf6;
+            --positive: #22c55e;
+            --negative: #f43f5e;
+            --neutral-900: #0f172a;
+            --neutral-800: #1e293b;
+            --neutral-700: #334155;
+            --neutral-600: #475569;
+            --neutral-400: #94a3b8;
+            --neutral-200: #e2e8f0;
+            --neutral-100: #f1f5f9;
+            --neutral-50: #f8fafc;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --elevated-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            min-height: 100vh;
+            color: var(--neutral-100);
+            line-height: 1.6;
+        }
+
+        .app-wrapper {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* Navigation Bar */
+        .nav-bar {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 16px 24px;
+            border-radius: 16px;
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .brand-text {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .member-name {
+            font-weight: 500;
+            color: var(--neutral-400);
+        }
+
+        /* Buttons */
+        .action-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .action-btn-primary {
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan));
+            color: white;
+        }
+
+        .action-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(20, 184, 166, 0.35);
+        }
+
+        .action-btn-secondary {
+            background: var(--neutral-700);
+            color: var(--neutral-200);
+        }
+
+        .action-btn-secondary:hover {
+            background: var(--neutral-600);
+        }
+
+        .action-btn-danger {
+            background: rgba(244, 63, 94, 0.15);
+            color: var(--negative);
+            border: 1px solid rgba(244, 63, 94, 0.3);
+        }
+
+        .action-btn-danger:hover {
+            background: rgba(244, 63, 94, 0.25);
+        }
+
+        /* Main Card */
+        .content-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 48px;
+            margin-bottom: 32px;
+        }
+
+        /* Hero Section */
+        .intro-section {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .intro-section h1 {
+            font-size: 40px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #fff 0%, var(--neutral-400) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .intro-section p {
+            font-size: 18px;
+            color: var(--neutral-400);
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        /* Authentication Forms */
+        .auth-wrapper {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .auth-panel {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 32px;
+            border-radius: 20px;
+        }
+
+        .auth-panel h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: var(--neutral-100);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--neutral-400);
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 14px;
+            color: var(--neutral-100);
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--accent-teal);
+        }
+
+        .input-group input::placeholder {
+            color: var(--neutral-600);
+        }
+
+        /* Analysis Section */
+        .analysis-section {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: var(--neutral-100);
+            text-align: center;
+        }
+
+        .info-banner {
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.1), rgba(6, 182, 212, 0.1));
+            border: 1px solid rgba(20, 184, 166, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+
+        .info-banner h3 {
+            color: var(--accent-teal);
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-banner p {
+            color: var(--neutral-400);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .measurement-form {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 32px;
+            border-radius: 20px;
+            margin-bottom: 32px;
+        }
+
+        .measurements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .measurement-field {
+            position: relative;
+        }
+
+        .measurement-field label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--neutral-400);
+            text-transform: capitalize;
+        }
+
+        .measurement-field input {
+            width: 100%;
+            padding: 10px 14px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            font-size: 14px;
+            color: var(--neutral-100);
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .measurement-field input:focus {
+            outline: none;
+            border-color: var(--accent-teal);
+            box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Loading State */
+        .processing-indicator {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .loader-ring {
+            width: 48px;
+            height: 48px;
+            border: 3px solid rgba(20, 184, 166, 0.2);
+            border-top-color: var(--accent-teal);
+            border-radius: 50%;
+            animation: rotate 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes rotate {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Result Display */
+        .diagnostic-result {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 32px;
+        }
+
+        .diagnostic-result.type-healthy {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05));
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .diagnostic-result.type-cancerous {
+            background: linear-gradient(135deg, rgba(244, 63, 94, 0.1), rgba(244, 63, 94, 0.05));
+            border: 1px solid rgba(244, 63, 94, 0.3);
+        }
+
+        .result-indicator {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+
+        .result-classification {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .type-healthy .result-classification {
+            color: var(--positive);
+        }
+
+        .type-cancerous .result-classification {
+            color: var(--negative);
+        }
+
+        .result-certainty {
+            font-size: 20px;
+            color: var(--neutral-400);
+            margin-bottom: 24px;
+        }
+
+        .medical-notice {
+            font-size: 13px;
+            color: var(--neutral-500);
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+        }
+
+        /* History Table */
+        .records-section {
+            margin-top: 48px;
+        }
+
+        .records-section h2 {
+            text-align: center;
+            margin-bottom: 24px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .records-table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .records-table thead {
+            background: rgba(20, 184, 166, 0.15);
+        }
+
+        .records-table th {
+            padding: 16px 20px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--accent-teal);
+        }
+
+        .records-table td {
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 14px;
+            color: var(--neutral-300);
+        }
+
+        .records-table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .records-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-tag {
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .status-tag-healthy {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--positive);
+        }
+
+        .status-tag-cancerous {
+            background: rgba(244, 63, 94, 0.15);
+            color: var(--negative);
+        }
+
+        /* Notifications */
+        .notification {
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            display: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .notification-success {
+            background: rgba(34, 197, 94, 0.15);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: var(--positive);
+        }
+
+        .notification-error {
+            background: rgba(244, 63, 94, 0.15);
+            border: 1px solid rgba(244, 63, 94, 0.3);
+            color: var(--negative);
+        }
+
+        .invisible {
+            display: none !important;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .auth-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-bar {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+
+            .intro-section h1 {
+                font-size: 28px;
+            }
+
+            .content-card {
+                padding: 24px;
+            }
+
+            .measurements-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .form-actions .action-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-wrapper">
+        <nav class="nav-bar">
+            <div class="brand">
+                <div class="brand-icon">🔬</div>
+                <span class="brand-text">MedScan Pro</span>
+            </div>
+            <div class="nav-actions">
+                <span class="member-name" id="memberNameDisplay"></span>
+                <button class="action-btn action-btn-danger invisible" id="signOutBtn" onclick="signOut()">Sign Out</button>
+            </div>
+        </nav>
+
+        <div class="content-card">
+            <div class="intro-section">
+                <h1>Intelligent Tumor Classification</h1>
+                <p>Advanced machine learning analysis using the Wisconsin Diagnostic Breast Cancer feature set for accurate tumor classification</p>
+            </div>
+
+            <div class="notification notification-success" id="successNotification"></div>
+            <div class="notification notification-error" id="errorNotification"></div>
+
+            <div class="auth-wrapper" id="authArea">
+                <div class="auth-panel">
+                    <h2>Sign In</h2>
+                    <form id="signInForm" onsubmit="processSignIn(event)">
+                        <div class="input-group">
+                            <label for="signInUsername">Username</label>
+                            <input type="text" id="signInUsername" placeholder="Enter username" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="signInPassword">Password</label>
+                            <input type="password" id="signInPassword" placeholder="Enter password" required>
+                        </div>
+                        <button type="submit" class="action-btn action-btn-primary" style="width: 100%;">Sign In</button>
+                    </form>
+                </div>
+
+                <div class="auth-panel">
+                    <h2>Create Account</h2>
+                    <form id="createAccountForm" onsubmit="processRegistration(event)">
+                        <div class="input-group">
+                            <label for="newUsername">Username</label>
+                            <input type="text" id="newUsername" placeholder="Choose username" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="newEmail">Email Address</label>
+                            <input type="email" id="newEmail" placeholder="your@email.com" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="newPassword">Password</label>
+                            <input type="password" id="newPassword" placeholder="Minimum 6 characters" required minlength="6">
+                        </div>
+                        <button type="submit" class="action-btn action-btn-secondary" style="width: 100%;">Create Account</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="analysis-section invisible" id="analysisArea">
+                <div class="info-banner">
+                    <h3>📊 About the Analysis</h3>
+                    <p>This system utilizes 30 numeric measurements derived from digitized images of fine needle aspirate (FNA) samples. These features characterize cell nuclei properties including radius, texture, perimeter, area, smoothness, compactness, concavity, symmetry, and fractal dimension. Enter precise decimal values for accurate classification.</p>
+                </div>
+
+                <div class="measurement-form">
+                    <h3 class="section-header">Enter Cell Measurements</h3>
+                    <form id="measurementForm" onsubmit="executeAnalysis(event)">
+                        <div class="measurements-grid" id="measurementsGrid">
+                            <!-- Dynamically populated -->
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="action-btn action-btn-primary">Run Analysis</button>
+                            <button type="button" class="action-btn action-btn-secondary" onclick="loadDemoData()">Load Demo Data</button>
+                            <button type="button" class="action-btn action-btn-secondary" onclick="clearInputs()">Clear All</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="processing-indicator" id="processingSpinner">
+                    <div class="loader-ring"></div>
+                    <p>Processing measurements...</p>
+                </div>
+
+                <div class="diagnostic-result" id="diagnosticResult">
+                    <div class="result-indicator" id="resultIndicator"></div>
+                    <div class="result-classification" id="resultClassification"></div>
+                    <div class="result-certainty" id="resultCertainty"></div>
+                    <div class="medical-notice">
+                        <strong>⚠️ Important Notice:</strong> This AI-powered tool is intended for informational purposes only and should not replace professional medical evaluation. Always consult qualified healthcare providers for diagnosis and treatment decisions.
+                    </div>
+                </div>
+
+                <div class="records-section" id="recordsArea">
+                    <h2>Analysis History</h2>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Classification</th>
+                                <th>Certainty</th>
+                                <th>Timestamp</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recordsTableBody">
+                            <tr>
+                                <td colspan="3" style="text-align: center; color: var(--neutral-500);">No analyses recorded yet</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isAuthenticated = {{ 'true' if logged_in else 'false' }};
+        let featureList = [];
+        
+        // Demo dataset (benign sample)
+        const demoMeasurements = {
+            "radius_mean": "13.54", "texture_mean": "14.36", "perimeter_mean": "87.46",
+            "area_mean": "566.3", "smoothness_mean": "0.09779", "compactness_mean": "0.08129",
+            "concavity_mean": "0.06664", "concave points_mean": "0.04781", "symmetry_mean": "0.1885",
+            "fractal_dimension_mean": "0.05766", "radius_se": "0.2699", "texture_se": "0.7886",
+            "perimeter_se": "2.058", "area_se": "23.56", "smoothness_se": "0.008462",
+            "compactness_se": "0.0146", "concavity_se": "0.02387", "concave points_se": "0.01315",
+            "symmetry_se": "0.0198", "fractal_dimension_se": "0.0023", "radius_worst": "15.11",
+            "texture_worst": "19.26", "perimeter_worst": "99.7", "area_worst": "711.2",
+            "smoothness_worst": "0.144", "compactness_worst": "0.1773", "concavity_worst": "0.239",
+            "concave points_worst": "0.1288", "symmetry_worst": "0.2977", "fractal_dimension_worst": "0.07259"
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (isAuthenticated) {
+                activateAnalysisMode();
+                document.getElementById('memberNameDisplay').textContent = '{{ username }}';
+                document.getElementById('signOutBtn').classList.remove('invisible');
+                retrieveFeatureList();
+                retrieveRecords();
+            }
+        });
+
+        async function retrieveFeatureList() {
+            try {
+                const response = await fetch('/get_feature_names');
+                const data = await response.json();
+                if (data.success) {
+                    featureList = data.features;
+                    buildMeasurementInputs();
+                }
+            } catch (err) {
+                console.error('Feature retrieval failed:', err);
+            }
+        }
+
+        function buildMeasurementInputs() {
+            const container = document.getElementById('measurementsGrid');
+            container.innerHTML = '';
+            
+            featureList.forEach(feature => {
+                const fieldWrapper = document.createElement('div');
+                fieldWrapper.className = 'measurement-field';
+                fieldWrapper.innerHTML = `
+                    <label for="${feature}">${feature.replace(/_/g, ' ')}</label>
+                    <input type="number" step="any" id="${feature}" name="${feature}" placeholder="0.00" required>
+                `;
+                container.appendChild(fieldWrapper);
+            });
+        }
+
+        function loadDemoData() {
+            Object.entries(demoMeasurements).forEach(([key, value]) => {
+                const inputField = document.getElementById(key);
+                if (inputField) {
+                    inputField.value = value;
+                }
+            });
+            displaySuccess('Demo measurements loaded successfully');
+        }
+
+        function clearInputs() {
+            document.getElementById('measurementForm').reset();
+            document.getElementById('diagnosticResult').style.display = 'none';
+        }
+
+        async function processSignIn(evt) {
+            evt.preventDefault();
+            
+            const username = document.getElementById('signInUsername').value;
+            const password = document.getElementById('signInPassword').value;
+            
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ username, password })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    displaySuccess('Authentication successful');
+                    window.location.reload();
+                } else {
+                    displayError(data.message);
+                }
+            } catch (err) {
+                displayError('Authentication failed. Please retry.');
+            }
+        }
+
+        async function processRegistration(evt) {
+            evt.preventDefault();
+            
+            const username = document.getElementById('newUsername').value;
+            const email = document.getElementById('newEmail').value;
+            const password = document.getElementById('newPassword').value;
+            
+            try {
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ username, email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    displaySuccess('Account created successfully');
+                    window.location.reload();
+                } else {
+                    displayError(data.message);
+                }
+            } catch (err) {
+                displayError('Registration failed. Please retry.');
+            }
+        }
+
+        function signOut() {
+            window.location.href = '/logout';
+        }
+
+        function activateAnalysisMode() {
+            document.getElementById('authArea').classList.add('invisible');
+            document.getElementById('analysisArea').classList.remove('invisible');
+        }
+
+        async function executeAnalysis(evt) {
+            evt.preventDefault();
+            
+            const measurements = {};
+            featureList.forEach(feature => {
+                const inputField = document.getElementById(feature);
+                measurements[feature] = inputField.value;
+            });
+            
+            document.getElementById('processingSpinner').style.display = 'block';
+            document.getElementById('diagnosticResult').style.display = 'none';
+            
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ features: measurements })
+                });
+                
+                const data = await response.json();
+                
+                document.getElementById('processingSpinner').style.display = 'none';
+                
+                if (data.success) {
+                    renderDiagnosticResult(data);
+                    retrieveRecords();
+                } else {
+                    displayError(data.message);
+                }
+            } catch (err) {
+                document.getElementById('processingSpinner').style.display = 'none';
+                displayError('Analysis failed. Please retry.');
+            }
+        }
+
+        function renderDiagnosticResult(data) {
+            const resultContainer = document.getElementById('diagnosticResult');
+            const isHealthy = data.result.toLowerCase().includes('benign');
+            
+            resultContainer.className = 'diagnostic-result';
+            resultContainer.classList.add(isHealthy ? 'type-healthy' : 'type-cancerous');
+            
+            document.getElementById('resultIndicator').textContent = isHealthy ? '✓' : '⚠';
+            document.getElementById('resultClassification').textContent = data.result;
+            document.getElementById('resultCertainty').textContent = `Certainty: ${data.confidence}%`;
+            
+            resultContainer.style.display = 'block';
+        }
+
+        async function retrieveRecords() {
+            try {
+                const response = await fetch('/history');
+                const data = await response.json();
+                
+                if (data.success && data.history.length > 0) {
+                    renderRecordsTable(data.history);
+                }
+            } catch (err) {
+                console.error('Records retrieval failed:', err);
+            }
+        }
+
+        function renderRecordsTable(records) {
+            const tableBody = document.getElementById('recordsTableBody');
+            tableBody.innerHTML = '';
+            
+            records.forEach(record => {
+                const tableRow = tableBody.insertRow();
+                const isHealthy = record.result === 'benign';
+                
+                tableRow.innerHTML = `
+                    <td><span class="status-tag ${isHealthy ? 'status-tag-healthy' : 'status-tag-cancerous'}">${record.result}</span></td>
+                    <td>${record.confidence}%</td>
+                    <td>${new Date(record.date).toLocaleString()}</td>
+                `;
+            });
+        }
+
+        function displaySuccess(message) {
+            const notification = document.getElementById('successNotification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            setTimeout(() => { notification.style.display = 'none'; }, 4000);
+        }
+
+        function displayError(message) {
+            const notification = document.getElementById('errorNotification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            setTimeout(() => { notification.style.display = 'none'; }, 4000);
+        }
+    </script>
+</body>
+</html>
